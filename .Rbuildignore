@@ -1,0 +1,15 @@
+(^|/)\.github($|/)
+(^|/)ai-dev($|/)
+(^|/)branding($|/)
+(^|/)docs($|/)
+(^|/)examples($|/)
+(^|/)CLAUDE\.md$
+(^|/)generate_hex\.R$
+(^|/)\.gitignore$
+(^|/)\.Rhistory$
+(^|/)\.RData$
+(^|/)src/rust/target($|/)
+(^|/)src/rust/\._
+(^|/)R/\._
+(^|/)tests/testthat/\._
+(^|/)\._

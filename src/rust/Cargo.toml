@@ -1,0 +1,22 @@
+[package]
+name = "parallax"
+version = "0.1.0"
+edition = "2021"
+authors = ["Chris Lyons <chris.lyons@ky.gov>"]
+description = "Rust core for the parallax R package — point cloud analysis algorithms"
+license = "GPL-3.0-or-later"
+
+[lib]
+crate-type = ["staticlib"]
+path = "lib.rs"
+
+[dependencies]
+extendr-api = "0.7"
+# TODO: add algorithm dependencies as they're implemented
+# kiddo = "4"           # k-d tree
+# nalgebra = "0.33"     # linear algebra (SVD, eigendecomposition)
+# rayon = "1.10"        # parallel iteration
+
+[dev-dependencies]
+# For Rust-side unit tests
+# approx = "0.5"

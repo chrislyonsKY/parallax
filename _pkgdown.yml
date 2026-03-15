@@ -1,0 +1,87 @@
+url: https://chrislyonsky.github.io/parallax/
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#0f766e"
+    secondary: "#355070"
+    code_bg: "#f7f9fb"
+
+home:
+  title: parallax
+  description: Platform-aware point cloud analysis for aerial, terrestrial, and UAV LiDAR in R.
+
+authors:
+  Chris Lyons:
+    href: https://github.com/chrislyonsKY
+
+navbar:
+  structure:
+    left: [intro, articles, reference]
+    right: [github]
+  components:
+    intro:
+      text: Get Started
+      href: articles/getting-started.html
+    articles:
+      text: Articles
+      menu:
+        - text: Getting started
+          href: articles/getting-started.html
+        - text: Platform-aware workflows
+          href: articles/platform-aware-workflows.html
+
+reference:
+  - title: Point cloud classes
+    contents:
+      - px_cloud
+      - px_aerial
+      - px_terrestrial
+      - px_uav
+      - px_scan_position
+      - as_px_cloud
+      - from_lidr
+      - to_lidr
+
+  - title: Read and write
+    contents:
+      - px_read
+      - px_write
+
+  - title: Filtering and geometry
+    contents:
+      - px_voxel_downsample
+      - px_filter_statistical
+      - px_filter_radius
+      - px_crop
+      - px_random_downsample
+      - px_estimate_normals
+      - px_orient_normals
+
+  - title: Segmentation and features
+    contents:
+      - px_classify_ground
+      - px_segment_objects
+      - px_segment_trees
+      - px_detect_planes
+      - px_detect_cylinders
+      - px_detect_edges
+
+  - title: Registration and reconstruction
+    contents:
+      - px_icp
+      - px_icp_point_to_point
+      - px_icp_point_to_plane
+      - px_coarse_align
+      - px_align_scans
+      - px_poisson_reconstruct
+      - px_ball_pivot
+      - px_alpha_shape
+
+  - title: Metrics and visualization
+    contents:
+      - px_metrics
+      - px_canopy_height_model
+      - px_density_map
+      - plot.px_cloud
+      - px_plot_registration
+      - px_plot_segmentation

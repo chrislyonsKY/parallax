@@ -1,0 +1,97 @@
+---
+title: "Platform-aware workflows"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Platform-aware workflows}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(parallax)
+```
+
+The package API stays consistent across platforms, but defaults and typical
+follow-on tasks differ between aerial and terrestrial data.
+
+## Constructors and metadata
+
+```{r}
+aerial <- px_read(
+  system.file("extdata", "aerial-demo.csv", package = "parallax"),
+  platform = "aerial"
+)
+
+scan <- px_read(
+  system.file("extdata", "terrestrial-demo.csv", package = "parallax"),
+  platform = "terrestrial"
+)
+
+aerial$metadata$platform
+scan$metadata$platform
+```
+
+## The same function, different context
+
+Ground classification runs through one function for both clouds, but the
+meaning of the result is tied to the acquisition platform.
+
+```{r}
+aerial_ground <- px_classify_ground(aerial)
+scan_ground <- px_classify_ground(scan)
+
+c(aerial_ground = aerial_ground$n_ground, terrestrial_ground = scan_ground$n_ground)
+```
+
+Tree segmentation makes sense for the aerial scene, while plane detection is a
+better fit for the terrestrial scan.
+
+```{r}
+trees <- px_segment_trees(aerial, min_height = 2.0, crown_threshold = 0.75)
+planes <- px_detect_planes(
+  px_estimate_normals(scan, k_neighbors = 4L),
+  distance_threshold = 0.08,
+  min_points = 6L,
+  num_iterations = 100L
+)
+
+trees$n_segments
+length(planes)
+```
+
+## Registration and reconstruction
+
+The installed registration example ships as a source/target pair.
+
+```{r}
+source <- px_read(
+  system.file("extdata", "registration-source.csv", package = "parallax"),
+  platform = "terrestrial"
+)
+target <- px_read(
+  system.file("extdata", "registration-target.csv", package = "parallax"),
+  platform = "terrestrial"
+)
+
+icp <- px_icp(source, target, max_correspondence_distance = 2.0)
+icp$transformation
+```
+
+Once a cloud has normals, it can move into reconstruction-oriented functions.
+
+```{r}
+target_with_normals <- px_estimate_normals(target, k_neighbors = 4L)
+mesh <- px_poisson_reconstruct(target_with_normals, depth = 4L)
+
+c(vertices = mesh$n_vertices, faces = mesh$n_faces)
+```
+
+## Takeaway
+
+The package surface is intentionally repetitive: read, filter, segment,
+register, and reconstruct with the same `px_*` verbs, and let the cloud class
+carry the platform context.

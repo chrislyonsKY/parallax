@@ -1,0 +1,15 @@
+TARGET_DIR=rust/target
+RUST_PROFILE=release
+STATLIB=$(TARGET_DIR)/$(RUST_PROFILE)/libparallax.a
+
+PKG_LIBS=$(STATLIB)
+
+all: $(SHLIB)
+
+$(STATLIB):
+	cargo build --manifest-path=rust/Cargo.toml --lib --release
+
+$(SHLIB): $(STATLIB)
+
+clean:
+	rm -Rf rust/target

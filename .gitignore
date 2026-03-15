@@ -1,0 +1,40 @@
+# R
+.Rhistory
+.Rdata
+.RData
+.Rproj.user
+*.Rproj
+.Rcheck/
+*.Rcheck/
+*.tar.gz
+
+# Rust build artifacts
+src/rust/target/
+src/rust/vendor/
+src/*.o
+src/*.so
+src/*.dll
+src/*.dylib
+src/parallax.a
+
+# Byte-compiled / optimized
+*.rds
+
+# OS
+.DS_Store
+Thumbs.db
+._*
+
+# Credentials
+.env
+*.env.*
+credentials.*
+secrets.*
+
+# IDE
+.vscode/
+.idea/
+
+# Local AI workflow files
+ai-dev/
+CLAUDE.md

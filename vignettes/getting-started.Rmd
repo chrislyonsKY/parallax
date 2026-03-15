@@ -1,0 +1,98 @@
+---
+title: "Getting started with parallax"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with parallax}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(parallax)
+```
+
+`parallax` wraps point cloud workflows in platform-aware R classes and uses a
+Rust backend for the operations that are likely to become expensive on real
+data. The installed demo files are intentionally tiny, but they mirror the same
+flow you would use for LAS/LAZ data.
+
+## Demo files
+
+```{r}
+aerial_path <- system.file("extdata", "aerial-demo.csv", package = "parallax")
+terrestrial_path <- system.file("extdata", "terrestrial-demo.csv", package = "parallax")
+
+aerial <- px_read(aerial_path, platform = "aerial")
+terrestrial <- px_read(terrestrial_path, platform = "terrestrial")
+
+class(aerial)
+class(terrestrial)
+```
+
+## Aerial workflow
+
+Start with filtering and ground classification.
+
+```{r}
+filtered <- px_filter_statistical(aerial, k = 6, std_ratio = 1.5)
+ground <- px_classify_ground(filtered)
+
+c(
+  n_points = nrow(filtered$xyz),
+  n_ground = ground$n_ground,
+  n_nonground = ground$n_nonground
+)
+```
+
+The same cloud can feed tree segmentation and summary metrics.
+
+```{r}
+trees <- px_segment_trees(filtered, min_height = 2.0, crown_threshold = 0.75)
+metrics <- px_metrics(filtered)
+
+trees$n_segments
+metrics
+```
+
+If you want gridded outputs, assign a simple ground/non-ground classification
+and build canopy products.
+
+```{r}
+filtered$classification <- ifelse(ground$ground_mask, 2L, 1L)
+
+chm <- px_canopy_height_model(filtered, resolution = 1.0)
+density <- px_density_map(filtered, resolution = 1.0)
+
+dim(chm$chm)
+dim(density$density)
+```
+
+## Terrestrial workflow
+
+Terrestrial data often leads with local geometry. Here the small demo scan has
+a dominant plane and enough points for local normal estimation.
+
+```{r}
+scan_with_normals <- px_estimate_normals(terrestrial, k_neighbors = 4L)
+planes <- px_detect_planes(
+  scan_with_normals,
+  distance_threshold = 0.08,
+  min_points = 6L,
+  num_iterations = 100L
+)
+
+length(planes)
+if (length(planes) > 0) planes[[1]]$equation
+```
+
+## Where to go next
+
+- Use `px_read()` on LAS/LAZ files for real data.
+- Use `px_icp()` and `px_align_scans()` for scan registration.
+- Use `px_poisson_reconstruct()` after `px_estimate_normals()` for mesh-style
+  outputs.
+- Convert to and from `lidR` objects with `to_lidr()` and `from_lidr()`.
