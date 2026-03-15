@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   pkgdown:
@@ -18,6 +20,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -33,4 +37,21 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      - uses: r-lib/actions/pkgdown@v2
+      - name: Build site
+        shell: Rscript {0}
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: pkgdown
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
