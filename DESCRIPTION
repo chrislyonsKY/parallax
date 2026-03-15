@@ -1,12 +1,15 @@
 Package: parallax
 Title: Multi-Platform Point Cloud Analysis
 Version: 0.1.0
-Author: Chris Lyons [aut, cre]
-Maintainer: Chris Lyons <chris.lyons@ky.gov>
 Authors@R:
-    person("Chris", "Lyons", email = "chris.lyons@ky.gov",
-           role = c("aut", "cre"),
-           comment = c(ORCID = ""))
+    c(
+      person("Chris", "Lyons", email = "chris.lyons@ky.gov",
+             role = c("aut", "cre")),
+      person(given = "Authors of the included Rust crates",
+             family = "",
+             role = c("ctb", "cph"),
+             comment = "see inst/COPYRIGHTS")
+    )
 Description: Multi-platform point cloud analysis for aerial, terrestrial, and
     UAV LiDAR. Provides registration (ICP, multi-scan alignment), segmentation
     (ground classification, object extraction, tree delineation), surface
@@ -21,7 +24,7 @@ BugReports: https://github.com/chrislyonsKY/parallax/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-SystemRequirements: Cargo (Rust's package manager), rustc
+SystemRequirements: Cargo (Rust's package manager), rustc (>= 1.65)
 Depends:
     R (>= 4.2)
 Imports:
@@ -41,4 +44,3 @@ Suggests:
 Config/rextendr/version: 0.3.1
 Config/Needs/website: pkgdown, knitr, rmarkdown
 VignetteBuilder: knitr
-LazyData: true

@@ -18,7 +18,7 @@ px_voxel_downsample <- function(cloud, voxel_size = 0.05) {
     return(cloud)
   }
 
-  native <- .parallax_call("wrap__parallax_voxel_downsample", cloud$xyz, voxel_size)
+  native <- .parallax_voxel_downsample(cloud$xyz, voxel_size)
   if (is.list(native) && !is.null(native$xyz) && !is.null(native$index)) {
     out <- .subset_px_cloud(cloud, native$index)
     out$xyz <- unname(native$xyz)
@@ -93,7 +93,7 @@ px_filter_statistical <- function(cloud, k = 20L, std_ratio = 2.0) {
     return(cloud)
   }
 
-  native_keep <- .parallax_call("wrap__parallax_sor", cloud$xyz, as.integer(k), std_ratio)
+  native_keep <- .parallax_sor(cloud$xyz, as.integer(k), std_ratio)
   keep <- if (is.integer(native_keep)) {
     as.integer(native_keep)
   } else {
@@ -133,7 +133,7 @@ px_filter_radius <- function(cloud, radius = 0.5, min_neighbors = 5L) {
     return(cloud)
   }
 
-  native_keep <- .parallax_call("wrap__parallax_radius_outlier", cloud$xyz, radius, as.integer(min_neighbors))
+  native_keep <- .parallax_radius_outlier(cloud$xyz, radius, as.integer(min_neighbors))
   keep <- if (is.integer(native_keep)) {
     as.integer(native_keep)
   } else {

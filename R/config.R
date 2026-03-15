@@ -47,9 +47,37 @@
   )
 }
 
-.parallax_call <- function(symbol, ...) {
+.parallax_voxel_downsample <- function(xyz, voxel_size) {
   tryCatch(
-    .Call(symbol, ..., PACKAGE = "parallax"),
+    .Call("wrap__parallax_voxel_downsample", xyz, voxel_size, PACKAGE = "parallax"),
+    error = function(cnd) NULL
+  )
+}
+
+.parallax_sor <- function(xyz, k, std_ratio) {
+  tryCatch(
+    .Call("wrap__parallax_sor", xyz, k, std_ratio, PACKAGE = "parallax"),
+    error = function(cnd) NULL
+  )
+}
+
+.parallax_radius_outlier <- function(xyz, radius, min_neighbors) {
+  tryCatch(
+    .Call("wrap__parallax_radius_outlier", xyz, radius, min_neighbors, PACKAGE = "parallax"),
+    error = function(cnd) NULL
+  )
+}
+
+.parallax_estimate_normals <- function(xyz, k_neighbors, radius) {
+  tryCatch(
+    .Call("wrap__parallax_estimate_normals", xyz, k_neighbors, radius, PACKAGE = "parallax"),
+    error = function(cnd) NULL
+  )
+}
+
+.parallax_dbscan <- function(xyz, eps, min_points) {
+  tryCatch(
+    .Call("wrap__parallax_dbscan", xyz, eps, min_points, PACKAGE = "parallax"),
     error = function(cnd) NULL
   )
 }

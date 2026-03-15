@@ -1,0 +1,47 @@
+#!/bin/sh
+
+set -eu
+
+find_rust_tool() {
+  tool="$1"
+
+  if command -v "$tool" >/dev/null 2>&1; then
+    command -v "$tool"
+    return 0
+  fi
+
+  if [ -x "$HOME/.cargo/bin/$tool" ]; then
+    printf '%s\n' "$HOME/.cargo/bin/$tool"
+    return 0
+  fi
+
+  return 1
+}
+
+CARGO_BIN="$(find_rust_tool cargo || true)"
+RUSTC_BIN="$(find_rust_tool rustc || true)"
+
+if [ -z "$CARGO_BIN" ] || [ -z "$RUSTC_BIN" ]; then
+  echo "ERROR: parallax requires Rust to build from source." >&2
+  echo "Install rustup from <https://rustup.rs/> so that both 'cargo' and 'rustc' are available." >&2
+  exit 1
+fi
+
+echo "Found Rust toolchain:"
+echo "  $($CARGO_BIN --version)"
+echo "  $($RUSTC_BIN --version)"
+
+cat > src/cargo.sh <<EOF
+#!/bin/sh
+exec "$CARGO_BIN" "\$@"
+EOF
+chmod 755 src/cargo.sh
+
+if [ -f "src/rust/vendor.tar.xz" ]; then
+  rm -rf src/rust/vendor
+  tar -xf src/rust/vendor.tar.xz -C src/rust
+fi
+
+if [ -d "src/rust/vendor" ]; then
+  find src/rust/vendor -name '._*' -delete
+fi

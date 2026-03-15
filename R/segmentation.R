@@ -121,7 +121,7 @@ px_segment_objects <- function(cloud,
     method,
     dbscan = {
       native_labels <- if (!use_normals) {
-        .parallax_call("wrap__parallax_dbscan", cloud$xyz, eps, as.integer(min_points))
+        .parallax_dbscan(cloud$xyz, eps, as.integer(min_points))
       } else {
         NULL
       }

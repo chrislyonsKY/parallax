@@ -1,0 +1,55 @@
+This package bundles vendored Rust crates in src/rust/vendor.tar.xz for
+offline source builds.
+
+Included crates and upstream copyright holders:
+
+- extendr-api 0.7.1
+  License: MIT
+  Repository: https://github.com/extendr/extendr
+  Authors: andy-thomason, Thomas Down, Mossa Merhi Reimert,
+    Claus O. Wilke, Hiroaki Yutani, Ilia A. Kosenkov, Michael Milton
+
+- extendr-macros 0.7.1
+  License: MIT
+  Repository: https://github.com/extendr/extendr
+  Authors: andy-thomason, Thomas Down, Mossa Merhi Reimert,
+    Claus O. Wilke, Hiroaki Yutani, Ilia A. Kosenkov, Michael Milton
+
+- libR-sys 0.7.1
+  License: MIT
+  Repository: https://github.com/extendr/libR-sys
+  Authors: andy-thomason, Thomas Down, Mossa Merhi Reimert,
+    Claus O. Wilke, Hiroaki Yutani, Ilia A. Kosenkov
+
+- once_cell 1.21.4
+  License: MIT OR Apache-2.0
+  Repository: https://github.com/matklad/once_cell
+  Author: Aleksey Kladov
+
+- paste 1.0.15
+  License: MIT OR Apache-2.0
+  Repository: https://github.com/dtolnay/paste
+  Author: David Tolnay
+
+- proc-macro2 1.0.106
+  License: MIT OR Apache-2.0
+  Repository: https://github.com/dtolnay/proc-macro2
+  Authors: David Tolnay, Alex Crichton
+
+- quote 1.0.45
+  License: MIT OR Apache-2.0
+  Repository: https://github.com/dtolnay/quote
+  Author: David Tolnay
+
+- syn 2.0.117
+  License: MIT OR Apache-2.0
+  Repository: https://github.com/dtolnay/syn
+  Author: David Tolnay
+
+- unicode-ident 1.0.24
+  License: (MIT OR Apache-2.0) AND Unicode-3.0
+  Repository: https://github.com/dtolnay/unicode-ident
+  Author: David Tolnay
+
+The corresponding upstream license files are included within the vendored
+crate sources under src/rust/vendor after extraction during package build.

@@ -5,10 +5,13 @@
 (^|/)examples($|/)
 (^|/)CLAUDE\.md$
 (^|/)generate_hex\.R$
+(^|/)cran-comments\.md$
+(^|/)_pkgdown\.yml$
 (^|/)\.gitignore$
 (^|/)\.Rhistory$
 (^|/)\.RData$
 (^|/)src/rust/target($|/)
+(^|/)src/rust/vendor($|/)
 (^|/)src/rust/\._
 (^|/)R/\._
 (^|/)tests/testthat/\._

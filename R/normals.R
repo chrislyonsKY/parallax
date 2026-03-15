@@ -28,8 +28,7 @@ px_estimate_normals <- function(cloud, k_neighbors = 30L, radius = NULL, orient 
     return(cloud)
   }
 
-  native_normals <- .parallax_call(
-    "wrap__parallax_estimate_normals",
+  native_normals <- .parallax_estimate_normals(
     cloud$xyz,
     as.integer(k_neighbors),
     if (is.null(radius)) NaN else radius
