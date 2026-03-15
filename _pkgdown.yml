@@ -79,6 +79,7 @@ reference:
 
   - title: Metrics and visualization
     contents:
+      - print.px_cloud
       - px_metrics
       - px_canopy_height_model
       - px_density_map
